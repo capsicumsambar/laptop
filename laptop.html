@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Does a Laptop Work?</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f9ff;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2b82d4;
+            text-align: center;
+        }
+        .part {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+        .illustration {
+            width: 200px;
+            height: 200px;
+            border: 3px solid #2b82d4;
+            border-radius: 10px;
+            margin: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        .description {
+            padding: 0 20px;
+        }
+        .button {
+            background: #2b82d4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .button:hover {
+            background: #1c5f9e;
+        }
+        .battery-level {
+            width: 200px;
+            height: 20px;
+            background: #ddd;
+            border-radius: 10px;
+            margin: 10px;
+        }
+        .battery-fill {
+            width: 100%;
+            height: 100%;
+            background: #98FB98;
+            border-radius: 10px;
+            transition: width 0.3s;
+        }
+        .memory-slot {
+            width: 200px;
+            height: 30px;
+            background: #ddd;
+            margin: 5px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            position: relative;
+        }
+        .memory-used {
+            background: #90EE90;
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s;
+            border-radius: 5px;
+        }
+        #cpu-speed {
+            font-size: 24px;
+            text-align: center;
+            margin: 10px;
+            font-weight: bold;
+            color: #2b82d4;
+        }
+        .file {
+            padding: 10px;
+            margin: 5px;
+            background: #fff;
+            border-radius: 5px;
+            cursor: move;
+            border: 2px dashed #2b82d4;
+            display: inline-block;
+        }
+        .file:hover {
+            background: #e8f4ff;
+        }
+        #file-storage {
+            min-height: 100px;
+            padding: 10px;
+            border: 2px dashed #2b82d4;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        /* CPU Art */
+        .cpu-art {
+            width: 100px;
+            height: 100px;
+            background: #2b82d4;
+            position: relative;
+            border-radius: 10px;
+        }
+        .cpu-art::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            background: linear-gradient(45deg, #ddd, #fff);
+            border-radius: 5px;
+        }
+        .cpu-pins {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 20px;
+            background: repeating-linear-gradient(90deg, #888, #888 2px, transparent 2px, transparent 6px);
+        }
+
+        /* RAM Art */
+        .ram-art {
+            width: 160px;
+            height: 60px;
+            background: #4a9;
+            border-radius: 5px;
+            position: relative;
+        }
+        .ram-chips {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            height: 40px;
+            background: repeating-linear-gradient(90deg, #333, #333 20px, #444 20px, #444 40px);
+        }
+
+        /* Hard Drive Art */
+        .hdd-art {
+            width: 140px;
+            height: 140px;
+            background: #666;
+            border-radius: 50%;
+            position: relative;
+        }
+        .hdd-art::before {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: #333;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .hdd-arm {
+            position: absolute;
+            width: 60px;
+            height: 4px;
+            background: #444;
+            top: 50%;
+            left: 50%;
+            transform-origin: left center;
+            animation: spin 5s linear infinite;
+        }
+
+        /* Battery Art */
+        .battery-art {
+            width: 120px;
+            height: 60px;
+            background: #ddd;
+            border-radius: 5px;
+            position: relative;
+        }
+        .battery-tip {
+            width: 10px;
+            height: 20px;
+            background: #ddd;
+            position: absolute;
+            right: -10px;
+            top: 20px;
+        }
+
+        /* Display Art and Animation */
+        .display-art {
+            width: 180px;
+            height: 120px;
+            background: #333;
+            border-radius: 5px;
+            position: relative;
+            transition: background 0.3s;
+        }
+        .display-art.on {
+            background: linear-gradient(45deg, #2b82d4, #1c5f9e);
+        }
+        .display-stand {
+            width: 40px;
+            height: 40px;
+            background: #666;
+            margin: 0 auto;
+            border-radius: 0 0 10px 10px;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg) translateX(0); }
+            to { transform: rotate(360deg) translateX(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>How Does a Laptop Work?<br>Just Like Your Body! 🤔</h1>
+
+        <div class="section">
+            <div class="part">
+                <div class="illustration">
+                    <div class="cpu-art">
+                        <div class="cpu-pins"></div>
+                    </div>
+                </div>
+                <div class="description">
+                    <h2>The CPU (Central Processing Unit) is the Brain! 🧠</h2>
+                    <p>Just like your brain thinks and makes decisions, the CPU does all the thinking in your laptop. It solves math problems and tells other parts what to do!</p>
+                    <div id="cpu-speed">0 MHz</div>
+                    <button class="button" onclick="startCPUWork()">Make CPU Work! 🏃</button>
+                    <button class="button" onclick="stopCPUWork()">Let CPU Rest 😴</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="part">
+                <div class="illustration">
+                    <div class="ram-art">
+                        <div class="ram-chips"></div>
+                    </div>
+                </div>
+                <div class="description">
+                    <h2>RAM is Short-Term Memory! 🤔</h2>
+                    <p>RAM is like when you remember things for a little while, like what you had for breakfast today. When you turn off the laptop, this memory is cleared!</p>
+                    <div class="memory-slot">
+                        <div class="memory-used"></div>
+                    </div>
+                    <button class="button" onclick="addRAM()">Open Program 📱</button>
+                    <button class="button" onclick="clearRAM()">Close All 🗑️</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="part">
+                <div class="illustration">
+                    <div class="hdd-art">
+                        <div class="hdd-arm"></div>
+                    </div>
+                </div>
+                <div class="description">
+                    <h2>Hard Drive is Long-Term Memory! 📚</h2>
+                    <p>The hard drive is like your long-term memory where you store important things like your favorite songs and pictures.</p>
+                    <div class="file" draggable="true">📸 Photo</div>
+                    <div class="file" draggable="true">🎵 Music</div>
+                    <div class="file" draggable="true">📝 Homework</div>
+                    <div id="file-storage">
+                        <p>Drop files here to save them!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="part">
+                <div class="illustration">
+                    <div class="battery-art">
+                        <div class="battery-tip"></div>
+                    </div>
+                </div>
+                <div class="description">
+                    <h2>Battery is the Stomach! 🔋</h2>
+                    <p>Just like you need food for energy, your laptop needs battery power to run. When the battery is empty, your laptop gets tired and needs to be charged!</p>
+                    <div class="battery-level">
+                        <div class="battery-fill"></div>
+                    </div>
+                    <button class="button" onclick="useBattery()">Use Power 📱</button>
+                    <button class="button" onclick="chargeBattery()">Charge! ⚡</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="part">
+                <div class="illustration">
+                    <div class="display-art">
+                        <div class="display-stand"></div>
+                    </div>
+                </div>
+                <div class="description">
+                    <h2>Display is like Eyes! 👀</h2>
+                    <p>The display shows you everything happening in your laptop, just like your eyes help you see the world!</p>
+                    <button class="button" onclick="toggleDisplay()">Turn Display On/Off 💡</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // CPU Interactive Features
+        let cpuInterval;
+        function startCPUWork() {
+            if (!cpuInterval) {
+                cpuInterval = setInterval(() => {
+                    const speed = Math.floor(Math.random() * 3000) + 1000;
+                    document.getElementById('cpu-speed').textContent = speed + ' MHz';
+                }, 200);
+            }
+        }
+        function stopCPUWork() {
+            clearInterval(cpuInterval);
+            cpuInterval = null;
+            document.getElementById('cpu-speed').textContent = '0 MHz';
+        }
+
+        // RAM Interactive Features
+        let ramUsage = 0;
+        function addRAM() {
+            if (ramUsage < 100) {
+                ramUsage += 20;
+                updateRAMDisplay();
+            }
+        }
+        function clearRAM() {
+            ramUsage = 0;
+            updateRAMDisplay();
+        }
+        function updateRAMDisplay() {
+            document.querySelector('.memory-used').style.width = ramUsage + '%';
+        }
+
+        // Hard Drive Interactive Features
+        document.querySelectorAll('.file').forEach(file => {
+            file.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', e.target.textContent);
+                e.target.style.opacity = '0.5';
+            });
+            file.addEventListener('dragend', (e) => {
+                e.target.style.opacity = '1';
+            });
+        });
+
+        const fileStorage = document.getElementById('file-storage');
+        fileStorage.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileStorage.style.background = '#e8f4ff';
+        });
+        fileStorage.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            fileStorage.style.background = 'transparent';
+        });
+        fileStorage.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileStorage.style.background = 'transparent';
+            const data = e.dataTransfer.getData('text/plain');
+            const newFile = document.createElement('div');
+            newFile.className = 'file';
+            newFile.textContent = data;
+            fileStorage.appendChild(newFile);
+        });
+
+        // Battery Interactive Features
+        let batteryLevel = 100;
+        let batteryInterval;
+        function useBattery() {
+            if (batteryLevel > 0) {
+                batteryLevel = Math.max(0, batteryLevel - 10);
+                updateBatteryDisplay();
+            }
+        }
+        function chargeBattery() {
+            if (batteryLevel < 100) {
+                batteryLevel = Math.min(100, batteryLevel + 10);
+                updateBatteryDisplay();
+            }
+        }
+        function updateBatteryDisplay() {
+            const batteryFill = document.querySelector('.battery-fill');
+            batteryFill.style.width = batteryLevel + '%';
+            if (batteryLevel < 20) {
+                batteryFill.style.background = '#FF6B6B';
+            } else {
+                batteryFill.style.background = '#98FB98';
+            }
+        }
+
+        // Display Interactive Features
+        let displayOn = false;
+        function toggleDisplay() {
+            displayOn = !displayOn;
+            const display = document.querySelector('.display-art');
+            if (displayOn) {
+                display.classList.add('on');
+            } else {
+                display.classList.remove('on');
+            }
+        }
+    </script>
+</body>
+</html>
